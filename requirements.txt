@@ -1,0 +1,12 @@
+flask
+flask-restplus
+flask-marshmallow
+flask-sqlalchemy
+marshmallow-sqlalchemy
+werkzeug==0.16.1
+boto3
+pycrypto
+redis
+authlib
+mysqlclient
+pyjwt
