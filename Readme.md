@@ -1,4 +1,5 @@
 # Pickaxe Oauth provider.
+Authnzer is literally, what its name says, it is a rest service that provides M2M and ROPC OAuth authentication and authorization to your microservices.
 
 ## Tenant API.
 Tenant API has operations to create a new tenant.
