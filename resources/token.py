@@ -1,5 +1,7 @@
-from flask_restplus import Resource, fields
+from flask_restplus import Resource
+from flask import request
 from resources.tenant import tenant_ns
+from service.token import TokenService
 from validators.token_request_validator import validate_grant
 
 class Token(Resource):
@@ -11,4 +13,5 @@ class Token(Resource):
         """
         Generates the access token of the specific type
         """
-        return {}
+        auth_client_json = request.get_json()
+        return TokenService.get_token(tenant_name, auth_client_json), 200

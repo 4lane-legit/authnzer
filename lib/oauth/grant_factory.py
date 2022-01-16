@@ -3,8 +3,8 @@ from lib.oauth.cc.cc import ClientCredentials
 from schemas.grants import AuthCodeSchema, ClientCredentialsSchema
 
 class OAuthGrantFactory:
-
-    def get_grant_object(self, grant_type):
+    @classmethod
+    def get_grant_object(cls, grant_type):
         if grant_type == 'client_credentials':
             return ClientCredentials()
         elif grant_type == 'auth_code':
@@ -12,8 +12,8 @@ class OAuthGrantFactory:
         else:
             raise ValueError(grant_type)
 
-        
-    def get_grant_schema(self, grant_type):
+    @classmethod
+    def get_grant_schema(cls, grant_type):
         if grant_type == 'client_credentials':
             return ClientCredentialsSchema()
         elif grant_type == 'auth_code':

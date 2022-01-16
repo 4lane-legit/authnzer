@@ -8,5 +8,5 @@ class AuthGrant(ABC):
         pass
 
     @abstractmethod    
-    def generate_access_token(self):
+    def generate_access_token(self, tenant_name, client):
         pass

@@ -1,7 +1,6 @@
 
-from flask import request, jsonify
+from flask import request
 from functools import wraps
-
 from marshmallow.exceptions import ValidationError
 from lib.oauth.attributes import Attributes
 from lib.oauth.grant_factory import OAuthGrantFactory

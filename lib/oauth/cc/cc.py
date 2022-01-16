@@ -1,20 +1,15 @@
-from datetime import time
+import time as t
 import logging
+import json
 import jwt
 from lib.oauth.grant import AuthGrant
 from models.auth_client import AuthClientModel
-from resources.tenant import Tenant
 from cache import redis_ins
 
 logger = logging.getLogger(__name__)
 class ClientCredentials(AuthGrant):
 
-    issuer: str
-
-    def __init__(self, issuer=None) -> None:
-        self.issuer = issuer
-
-    def __authenticate_client(self, client_id, client_secret):
+    def authenticate_client(self, client_id, client_secret):
         try:
 
             client = AuthClientModel.find_by_client_id(client_id)
@@ -23,29 +18,33 @@ class ClientCredentials(AuthGrant):
                 return False
             if client.client_id == client_id and client.client_secret == client_secret:
                 return True
-        except Exception:
+        except ValueError:
             logger.exception('Some error occured while autheticating the client')
             return False
 
-    def set_issuer(self, issuer):
-        self.issuer = issuer
-        return self
-
-    def set_token_settings(self): 
+    def __set_token_settings(self): 
         pass
 
-    def generate_access_token(self, tenant_name, client_id, client_secret):
-        if not self.__authenticate_client(client_id, client_secret):
+    def generate_access_token(self, tenant_name, client):
+        client_id = client['client_id']
+        client_secret = client['client_secret']
+        issuer = ''
+        if not self.authenticate_client(client_id, client_secret):
             return False
         
         payload = {
-            "iss": self.issuer,
-            "exp": time.time() + 3600,
+            "iss": issuer,
+            "exp": t.time() + 3600,
         }
 
-        certs = redis_ins.get(tenant_name)
-        return ""
+        certs = redis_ins.get(tenant_name).decode('utf-8')
+        certs = json.loads(certs)
+        access_token = jwt.encode(payload, certs['priv'], algorithm = 'RS256')
+        return access_token
 
+
+    def generate_refresh_token(self, tenant_name, client):
+        pass
         
 
 
