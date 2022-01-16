@@ -1,8 +1,14 @@
-from flask_restplus import Resource
+from flask_restplus import Resource, fields
 from flask import request
-from resources.tenant import tenant_ns
 from service.token import TokenService
 from validators.token_request_validator import validate_grant
+from resources.tenant import tenant_ns
+
+prefix = 'aws/tenant/certs/'
+#Model required by flask_restplus for expect
+token = tenant_ns.model('Token', {
+    'token': fields.String('JWT token')
+})
 
 class Token(Resource):
     """
@@ -15,3 +21,13 @@ class Token(Resource):
         """
         auth_client_json = request.get_json()
         return TokenService.get_token(tenant_name, auth_client_json), 200
+    
+class TokenIntrospect(Resource):
+    @tenant_ns.expect(token)
+    def get (self, tenant_name):
+        """
+        Token introspection endpoint
+        """
+        token = request.get_json()
+        token = token['token']
+        return TokenService.introspect(tenant_name, token), 200

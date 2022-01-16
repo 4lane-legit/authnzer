@@ -77,7 +77,7 @@ class TenantList(Resource):
         tenant_json = request.get_json()
         secret = TenantSetup().set_tenant_name(tenant_json['name']).setup_certs_in_cloud()
         tenant_json['cert_store'] = secret
-        tenant_data = tenant_schema.load(tenant_json)       
+        tenant_data = tenant_schema.load(tenant_json)  
         tenant_data.save_to_db()
 
         return tenant_schema.dump(tenant_data), 201

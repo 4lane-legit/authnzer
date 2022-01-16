@@ -69,7 +69,7 @@ def validate_grant():
                         "missing": "grant type"
                     }
                     return response, 400
-                schema = OAuthGrantFactory().get_grant_schema(grant_type)
+                schema = OAuthGrantFactory.get_grant_schema(grant_type)
                 schema.load(request.get_json())
             except ValidationError as err:
                 error = {

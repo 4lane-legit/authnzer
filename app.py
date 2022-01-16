@@ -9,7 +9,7 @@ from resources.auth_client import AuthClient, AuthClientList, AuthClientRegister
 from resources.settings import Setting, SettingRegister, SettingsTemplates, settings_ns
 from marshmallow import ValidationError
 from config import Config
-from resources.token import Token
+from resources.token import Token, TokenIntrospect
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -35,9 +35,11 @@ def handle_validation_error(error):
 tenant_ns.add_resource(Tenant, '/<int:id>')
 tenant_ns.add_resource(TenantOpenId, '/<string:tenant_name>/.well_known/open-id')
 tenant_ns.add_resource(TenantPublic, '/<string:tenant_name>/auth')
-tenant_ns.add_resource(Token, '/<string:tenant_name>/token')
 tenant_ns.add_resource(TenantList, '')
 tenant_ns.add_resource(AuthClientList, "/<int:tenant_id>/clients")
+
+tenant_ns.add_resource(Token, '/<string:tenant_name>/token')
+tenant_ns.add_resource(TokenIntrospect, '/<string:tenant_name>/introspect')
 
 # oauth clients route module
 auth_client_ns.add_resource(AuthClient, '/<string:client_id>')

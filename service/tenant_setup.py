@@ -1,3 +1,4 @@
+from sys import prefix
 import boto3
 import os
 import json
@@ -29,20 +30,20 @@ class TenantSetup:
             self.secrets_manager = boto3.client("secretsmanager")
         self.name = name
 
-    def setup_certs_in_cloud(self) -> bool:
+    def setup_certs_in_cloud(self) -> str:
         """
         setup the cert strings in AWS cloud and pre load in Redis for easy use
         """
-        cert = Cert().set_keysize(self.RSA_KEYSIZE).generate()
+        cert = Cert.set_keysize(self.RSA_KEYSIZE).generate()
+        key = f'{self.prefix}{self.name}'
         if cert is None:
             return False
         client = SecretsManagerSecret(self.secrets_manager)
 
-        secret = client.create(self.prefix+self.name, {'pub': cert[0], 'priv': cert[1]})
-        if redis_ins.exists(self.name):
-           redis_ins.delete(self.name)
-
-        redis_ins.set(self.name, json.dumps({'pub': cert[0], 'priv': cert[1]}))
+        if redis_ins.exists(key):
+           redis_ins.delete(key)
+        secret = client.create(key, {'pub': cert[0], 'priv': cert[1]})
+        redis_ins.hmset(key, {'pub': cert[0], 'priv': cert[1]})
         return secret['ARN']
 
 
@@ -50,20 +51,21 @@ class TenantSetup:
         """
         Setup JWK string for the tenant
         """
-        if redis_ins.exists(self.name):
-            certs = redis_ins.get(self.name)
+        key = f'{self.prefix}{self.name}'
+        if redis_ins.exists(key):
+            certs = redis_ins.hgetall(key)
         certs = json.loads(certs.decode('utf-8'))
         return JWTHelper.generate_jwk(certs)
     	
-    def get_issuer_info(self, secret_arn) -> None:
+    def get_issuer_info(self, secret=None):
         """
         Gets the public key and issuer info handy.
         """
+        key = f'{self.prefix}{self.name}'
         response = {}
         response['tenant'] = self.name
-        if redis_ins.exists(self.name):
-            certs = redis_ins.get(self.name)
-            certs = json.loads(certs.decode('utf-8'))
-            response['public_key'] = StrUtil.strip_key_headers(certs['pub'])
+        if redis_ins.exists(key):
+            certs = redis_ins.hgetall(key)
+            response['public_key'] = certs['pub']
         response['token_service'] = f'{os.environ.get("BASE_URL_INTERNAL")}/.well-known/open-id'
         return response

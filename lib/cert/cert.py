@@ -6,10 +6,12 @@ class Cert:
     """
     key_size = 0
 
+    @classmethod
     def set_keysize(self, key_size):
         self.key_size = key_size
         return self
 
+    @classmethod
     def generate(self):
         key = RSA.generate(self.key_size)
         pubkey = key.publickey().exportKey('PEM')

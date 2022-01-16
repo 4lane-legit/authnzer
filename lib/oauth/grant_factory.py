@@ -1,6 +1,7 @@
 from lib.oauth.ac.ac import AuthCodeGrant
 from lib.oauth.cc.cc import ClientCredentials
-from schemas.grants import AuthCodeSchema, ClientCredentialsSchema
+from lib.oauth.ropc.ropc import ResourceOwnerPasswordGrant
+from schemas.grants import AuthCodeSchema, ClientCredentialsSchema, ROPSchema
 
 class OAuthGrantFactory:
     @classmethod
@@ -9,6 +10,8 @@ class OAuthGrantFactory:
             return ClientCredentials()
         elif grant_type == 'auth_code':
             return AuthCodeGrant()
+        elif grant_type == 'ropc':
+            return ResourceOwnerPasswordGrant()
         else:
             raise ValueError(grant_type)
 
@@ -18,5 +21,7 @@ class OAuthGrantFactory:
             return ClientCredentialsSchema()
         elif grant_type == 'auth_code':
             return AuthCodeSchema()
+        elif grant_type == 'ropc':
+            return ROPSchema()
         else:
             raise ValueError(grant_type)

@@ -2,7 +2,7 @@ from lib.oauth.grant import AuthGrant
 import logging
 
 logger = logging.getLogger(__name__)
-class AuthCodeGrant(AuthGrant):
+class ResourceOwnerPasswordGrant(AuthGrant):
     
     def authenticate_client(self, client_id, client_secret):
         return True

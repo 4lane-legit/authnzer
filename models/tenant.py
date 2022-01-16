@@ -12,8 +12,8 @@ class TenantModel(db.Model):
     __tablename__ = "tenants"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False, unique=True)
-    description = db.Column(db.String(200), nullable=True, unique=True)
-    cert_store = db.Column(db.String(200), nullable=True, unique=True)
+    description = db.Column(db.String(200), nullable=False, unique=False)
+    cert_store = db.Column(db.String(200), nullable=False, unique=True)
     tenant_logo_url = db.Column(db.String(100), nullable=True, unique=True)
 
     def __init__(self, name, description, cert_store=None, tenant_logo_url=None):
