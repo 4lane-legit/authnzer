@@ -1,0 +1,334 @@
+{
+	"info": {
+		"_postman_id": "b79bc483-0a6c-413d-a734-3a2b97876fca",
+		"name": "pickaxe-auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tenants",
+			"item": [
+				{
+					"name": "tenants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tenant",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tenant"
+							]
+						},
+						"description": "All tenants."
+					},
+					"response": []
+				},
+				{
+					"name": "issuer endpoint.",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tenant/{{tenant_name}}/auth",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tenant",
+								"{{tenant_name}}",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register tenant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"nilk\",\r\n    \"description\": \"lorem ipsum dolor set amet.\",\r\n    \"tenant_logo_url\": \"https://s3::00000000000001:local.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tenant",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tenant"
+							]
+						},
+						"description": "Creates a new tenant record and generate key pairs."
+					},
+					"response": []
+				},
+				{
+					"name": "discovery url",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tenant/{{tenant_name}}/.well_known/open-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tenant",
+								"{{tenant_name}}",
+								".well_known",
+								"open-id"
+							]
+						},
+						"description": "scopes and claims discovery endpoint. All of the openid configs are available at this endpoint."
+					},
+					"response": []
+				},
+				{
+					"name": "get all oauth clients info.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/oauth/clients",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"oauth",
+								"clients"
+							]
+						},
+						"description": "Get the info on all auth clients, the endpoint returns list of all oauth endpoints."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tenants admin",
+			"item": [
+				{
+					"name": "delete tenant by ID.",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tenant/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tenant",
+								"{{id}}"
+							]
+						},
+						"description": "Delete the tenant, maily required to be done at time of customer decommisioning."
+					},
+					"response": []
+				},
+				{
+					"name": "update tenant information.",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"lorem\",\r\n    \"description\": \"lorem ipsum dolor set amet.\",\r\n    \"tenant_logo_url\": \"https://s3::0000000000000:local.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tenant/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tenant",
+								"{{id}}"
+							]
+						},
+						"description": "Update the tenant information, mainly the description and names."
+					},
+					"response": []
+				},
+				{
+					"name": "tenant lookup by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tenant/{{id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tenant",
+								"{{id}}"
+							]
+						},
+						"description": "Get tenant info by ID."
+					},
+					"response": []
+				}
+			],
+			"description": "Tenants admin endpoints."
+		},
+		{
+			"name": "token service",
+			"item": [
+				{
+					"name": "cc token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client_id\": \"2f9ae025-7a59-4cd0-8405-6d0c846b7bf5\",\r\n    \"client_secret\": \"62f03c60771911ec8a320242ac110002\",\r\n    \"grant_type\": \"client_credentials\",\r\n    \"audience\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tenant/{{tenant_name}}/token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tenant",
+								"{{tenant_name}}",
+								"token"
+							]
+						},
+						"description": "token with client credentials grant. For machine to machine auth."
+					},
+					"response": []
+				},
+				{
+					"name": "introspect",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOi8vaHViLmRvY2tlci5pbnRlcm5hbDo1MDAwL2FwaS90ZW5hbnQvbmlsay9hdXRoIiwiZXhwIjoxNjQyMzc2MDk5LjY0NTM0NywibmJmIjoxNjQyMzcyNTA5LjY0NTM1NywiaWF0IjoxNjQyMzcyNTA5LjY0NTM2MzgsImp0aSI6MTY0MjM3MjQ5OS42NDUzNjk1LCJhdWQiOltdfQ.Qv9fIQdTeoP0x5OqHs8RqC-blligYQxVDntTwHoQr8O4czHM25tJMw9xOpji2s6oy9FrXm-7q-kAWwbsCKTxDLwMUpygRCzk-nAZf6ghh9cM2tBwlDIBuoCAT4HsE1r_Znw8wn3YkSkfh7qztgWClIMU2m98vtSA8hvSrUYggtPxSyXIYzJ1a2Jo3GHFbIwHSooY0HCTfaRRLLSPoFfO_z2wGteBrezk56q1ub2sdU4LqTwBR9pmgLttfT8tMsuXA5JXk2SbnZ76zenSU9UxJ-ZDAAaLWnjU48R_lxzpoPWCsRKDcq5KwDNfAEDG61tcSiNKomaBxQO8QrPHOmM3A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tenant/{{tenant_name}}/introspect",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tenant",
+								"{{tenant_name}}",
+								"introspect"
+							]
+						},
+						"description": "token introspection endpoint."
+					},
+					"response": []
+				}
+			],
+			"description": "Token endpoints for all oauth grant types."
+		},
+		{
+			"name": "oauth_clients",
+			"item": [
+				{
+					"name": "oauth_register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"lorem\",\r\n  \"grant_type\": \"client_credentials\",\r\n  \"tenant\": \"nilk\",\r\n  \"allowed_scopes\": \"[]\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/oauth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"oauth",
+								"register"
+							]
+						},
+						"description": "register a new oauth client."
+					},
+					"response": []
+				}
+			],
+			"description": "oauth clients, support for major auth grants."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
