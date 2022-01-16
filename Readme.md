@@ -84,6 +84,8 @@ The application API doc is auto generated and can be accessed @
 HOST: server host
 PORT: 5000
 ```
+![image](https://user-images.githubusercontent.com/68027670/149682249-84e14710-f637-4100-b65b-eabf71454da0.png)
+
 
 ### Supported grant types
 
