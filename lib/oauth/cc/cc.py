@@ -46,7 +46,6 @@ class ClientCredentials(AuthGrant):
 
         certs = redis_ins.hgetall(key)
         access_token = jwt.encode(payload, certs['priv'], algorithm = 'RS256')
-        # verify = jwt.decode(access_token, certs['pub'], algorithms = ['RS256'])
         return access_token
 
 

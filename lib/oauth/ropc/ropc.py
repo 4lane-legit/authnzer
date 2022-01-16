@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 class ResourceOwnerPasswordGrant(AuthGrant):
     
     def authenticate_client(self, client_id, client_secret):
-        return True
+        pass
     
     def generate_access_token(self, tenant_name, client):
-        return True
+        pass
