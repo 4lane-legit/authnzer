@@ -1,4 +1,4 @@
-# Pick axe Oauth provider.
+# Pickaxe Oauth provider.
 
 ## Tenant API.
 Tenant API has operations to create a new tenant.
